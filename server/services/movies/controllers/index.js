@@ -39,7 +39,7 @@ class Controller {
         title,
         overview,
         poster_path,
-        popularity,
+        popularity: Number(popularity),
         tags: tagList,
       };
 
@@ -61,7 +61,7 @@ class Controller {
         title,
         overview,
         poster_path,
-        popularity,
+        popularity: Number(popularity),
         tags: tagList,
       };
 
