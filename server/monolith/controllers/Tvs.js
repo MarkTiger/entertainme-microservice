@@ -36,12 +36,15 @@ class Controller {
   static async createTv(req, res, next) {
     try {
       const { title, overview, poster_path, popularity, tags } = req.body;
+
+      const tagList = tags.split(',').map((tag) => tag.trim());
+
       const payload = {
         title,
         overview,
         poster_path,
         popularity,
-        tags,
+        tags: tagList,
       };
 
       const data = await Model.create(payload);
@@ -55,12 +58,14 @@ class Controller {
     try {
       const { id } = req.params;
       const { title, overview, poster_path, popularity, tags } = req.body;
+      const tagList = tags.split(',').map((tag) => tag.trim());
+
       const payload = {
         title,
         overview,
         poster_path,
         popularity,
-        tags,
+        tags: tagList,
       };
 
       const data = await Model.update(id, payload);
