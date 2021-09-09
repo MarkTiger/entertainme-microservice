@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-const redis = require('./config/redis');
-
 const express = require('express');
 const router = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
