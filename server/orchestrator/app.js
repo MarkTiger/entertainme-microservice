@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { ApolloServer, gql } = require('apollo-server');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 const { merge } = require('lodash');
@@ -11,6 +13,7 @@ const {
 } = require('./schemas/tvseries');
 const moviesAPI = require('./apis/moviesAPI');
 const tvSeriesAPI = require('./apis/tvSeriesAPI');
+const redis = require('./config/redis');
 
 const typeDefs = gql`
   type All {
@@ -29,13 +32,22 @@ const resolvers = {
   Query: {
     async all() {
       try {
-        const { data: movies } = await moviesAPI.get('/');
-        const { data: tvSeries } = await tvSeriesAPI.get('/');
+        const allDataCache = await redis.get('allData');
 
-        return {
-          movies,
-          tvSeries,
-        };
+        if (allDataCache) {
+          const parsedCache = JSON.parse(allDataCache);
+          return parsedCache;
+        } else {
+          const { data: movies } = await moviesAPI.get('/');
+          const { data: tvSeries } = await tvSeriesAPI.get('/');
+          const response = {
+            movies,
+            tvSeries,
+          };
+          const responseString = JSON.stringify(response);
+          redis.set('allData', responseString);
+          return response;
+        }
       } catch (err) {
         return 'error';
       }

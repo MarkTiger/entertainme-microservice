@@ -1,5 +1,6 @@
 const { gql, UserInputError } = require('apollo-server');
 const tvSeriesAPI = require('../apis/tvSeriesAPI');
+const redis = require('../config/redis');
 
 module.exports = {
   typeDef: gql`
@@ -35,8 +36,17 @@ module.exports = {
     Query: {
       async tvSeries() {
         try {
-          const { data } = await tvSeriesAPI.get('/');
-          return data;
+          const allTvSeriesCache = await redis.get('allTvSeries');
+
+          if (allTvSeriesCache) {
+            const parsedCache = JSON.parse(allTvSeriesCache);
+            return parsedCache;
+          } else {
+            const { data } = await tvSeriesAPI.get('/');
+            const dataString = JSON.stringify(data);
+            redis.set('allTvSeries', dataString);
+            return data;
+          }
         } catch (err) {
           return err;
         }
@@ -44,11 +54,22 @@ module.exports = {
 
       async tvSeriesOne(parent, args) {
         try {
-          const { data } = await tvSeriesAPI.get('/' + args.id);
-          if (Array.isArray(data)) {
-            throw new UserInputError('Invalid TV Series ID');
+          const tvSeriesId = await redis.get('tvSeriesId');
+          const oneTvSeriesCache = await redis.get('oneTvSeries');
+
+          if (args.id === tvSeriesId && oneTvSeriesCache) {
+            const parsedCache = JSON.parse(oneTvSeriesCache);
+            return parsedCache;
           } else {
-            return data;
+            const { data } = await tvSeriesAPI.get('/' + args.id);
+            if (Array.isArray(data)) {
+              throw new UserInputError('Invalid TV Series ID');
+            } else {
+              const dataString = JSON.stringify(data);
+              redis.set('tvSeriesId', args.id);
+              redis.set('oneTvSeries', dataString);
+              return data;
+            }
           }
         } catch (err) {
           return err;
@@ -60,6 +81,7 @@ module.exports = {
       async createTvSeries(parent, args) {
         try {
           const { data } = await tvSeriesAPI.post('/', args);
+          redis.del('allData', 'allTvSeries');
           return data.insertedId;
         } catch (err) {
           return err;
@@ -69,6 +91,7 @@ module.exports = {
       async updateTvSeries(parent, args) {
         try {
           await tvSeriesAPI.put('/' + args.id, args);
+          redis.del('allData', 'allTvSeries', 'oneTvSeries', 'tvSeriesId');
           return `Tv Series with id ${args.id} successfully updated`;
         } catch (err) {
           return err;
@@ -78,6 +101,7 @@ module.exports = {
       async deleteTvSeries(parent, args) {
         try {
           await tvSeriesAPI.delete('/' + args.id);
+          redis.del('allData', 'allTvSeries', 'oneTvSeries', 'tvSeriesId');
           return `Tv Series with id ${args.id} successfully deleted`;
         } catch (err) {
           return err;
