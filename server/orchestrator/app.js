@@ -48,7 +48,7 @@ const schema = makeExecutableSchema({
   resolvers: merge(resolvers, movieResolvers, tvSeriesResolvers),
 });
 
-const server = new ApolloServer({ schema });
+const server = new ApolloServer({ schema, debug: false });
 
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`);

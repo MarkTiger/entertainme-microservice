@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { gql, UserInputError } = require('apollo-server');
 const tvSeriesAPI = require('../apis/tvSeriesAPI');
 
 module.exports = {
@@ -38,16 +38,20 @@ module.exports = {
           const { data } = await tvSeriesAPI.get('/');
           return data;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
 
       async tvSeriesOne(parent, args) {
         try {
           const { data } = await tvSeriesAPI.get('/' + args.id);
-          return data;
+          if (Array.isArray(data)) {
+            throw new UserInputError('Invalid TV Series ID');
+          } else {
+            return data;
+          }
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
     },
@@ -58,7 +62,7 @@ module.exports = {
           const { data } = await tvSeriesAPI.post('/', args);
           return data.insertedId;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
 
@@ -67,7 +71,7 @@ module.exports = {
           await tvSeriesAPI.put('/' + args.id, args);
           return `Tv Series with id ${args.id} successfully updated`;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
 
@@ -76,7 +80,7 @@ module.exports = {
           await tvSeriesAPI.delete('/' + args.id);
           return `Tv Series with id ${args.id} successfully deleted`;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
     },

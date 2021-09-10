@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { gql, UserInputError } = require('apollo-server');
 const moviesAPI = require('../apis/moviesAPI');
 
 module.exports = {
@@ -38,16 +38,20 @@ module.exports = {
           const { data } = await moviesAPI.get('/');
           return data;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
 
       async movie(parent, args) {
         try {
-          const { data } = await moviesAPI.get('/' + args.id);
-          return data;
+          const { data } = await moviesAPI.get(`/${args.id}`);
+          if (Array.isArray(data)) {
+            throw new UserInputError('Invalid movie ID');
+          } else {
+            return data;
+          }
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
     },
@@ -57,7 +61,7 @@ module.exports = {
           const { data } = await moviesAPI.post('/', args);
           return data.insertedId;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
 
@@ -66,7 +70,7 @@ module.exports = {
           await moviesAPI.put('/' + args.id, args);
           return `Movie with id ${args.id} successfully updated`;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
 
@@ -75,7 +79,7 @@ module.exports = {
           await moviesAPI.delete('/' + args.id);
           return `Movie with id ${args.id} successfully deleted`;
         } catch (err) {
-          return 'error';
+          return err;
         }
       },
     },
