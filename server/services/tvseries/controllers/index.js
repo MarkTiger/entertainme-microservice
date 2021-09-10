@@ -35,17 +35,7 @@ class Controller {
 
   static async createTv(req, res, next) {
     try {
-      const { title, overview, poster_path, popularity, tags } = req.body;
-
-      const tagList = tags.split(',').map((tag) => tag.trim());
-
-      const payload = {
-        title,
-        overview,
-        poster_path,
-        popularity: Number(popularity),
-        tags: tagList,
-      };
+      const { payload } = req.body;
 
       const data = await Model.create(payload);
       res.status(201).json(data);
@@ -57,16 +47,7 @@ class Controller {
   static async updateTv(req, res, next) {
     try {
       const { id } = req.params;
-      const { title, overview, poster_path, popularity, tags } = req.body;
-      const tagList = tags.split(',').map((tag) => tag.trim());
-
-      const payload = {
-        title,
-        overview,
-        poster_path,
-        popularity: Number(popularity),
-        tags: tagList,
-      };
+      const { payload } = req.body;
 
       const data = await Model.update(id, payload);
       if (data.modifiedCount) {

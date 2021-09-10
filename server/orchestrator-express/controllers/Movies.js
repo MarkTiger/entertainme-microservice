@@ -51,7 +51,7 @@ class Controller {
         popularity,
         tags,
       };
-      const { data } = await moviesAPI.post('/', payload);
+      const { data } = await moviesAPI.post('/', { payload });
       redis.del('allData', 'allMovie');
       res.status(201).json(data);
     } catch (err) {
@@ -70,7 +70,7 @@ class Controller {
         popularity,
         tags,
       };
-      const { data } = await moviesAPI.put(`/${id}`, payload);
+      const { data } = await moviesAPI.put(`/${id}`, { payload });
       redis.del('allData', 'allMovie', 'oneMovie', 'movieId');
       res.status(200).json(data);
     } catch (err) {

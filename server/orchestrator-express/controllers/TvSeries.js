@@ -51,7 +51,7 @@ class Controller {
         popularity,
         tags,
       };
-      const { data } = await tvSeriesAPI.post('/', payload);
+      const { data } = await tvSeriesAPI.post('/', { payload });
       redis.del(['allData', 'allTv']);
       res.status(201).json(data);
     } catch (err) {
@@ -70,7 +70,7 @@ class Controller {
         popularity,
         tags,
       };
-      const { data } = await tvSeriesAPI.put(`/${id}`, payload);
+      const { data } = await tvSeriesAPI.put(`/${id}`, { payload });
       redis.del(['allData', 'allTv', 'tvId', 'oneTv']);
       res.status(200).json(data);
     } catch (err) {

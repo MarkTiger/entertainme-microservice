@@ -33,14 +33,12 @@ class Controller {
     try {
       const { title, overview, poster_path, popularity, tags } = req.body;
 
-      const tagList = tags.split(',').map((tag) => tag.trim());
-
       const payload = {
         title,
         overview,
         poster_path,
         popularity: Number(popularity),
-        tags: tagList,
+        tags,
       };
 
       const data = await Model.create(payload);
@@ -55,14 +53,12 @@ class Controller {
       const { id } = req.params;
       const { title, overview, poster_path, popularity, tags } = req.body;
 
-      const tagList = tags.split(',').map((tag) => tag.trim());
-
       const payload = {
         title,
         overview,
         poster_path,
         popularity: Number(popularity),
-        tags: tagList,
+        tags,
       };
 
       const data = await Model.update(id, payload);
