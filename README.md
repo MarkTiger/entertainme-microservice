@@ -70,11 +70,15 @@ lanjut kerjakan di folder client
 
 ### GraphQL Client
 
-- [ ] Membuat client side untuk menampilkan menggunakan Apollo Client.
-- [ ] Buat halaman home yang menampilkan data movies dan tvseries dengan menggunakan 1 query GraphQL
-- [ ] Buat halaman/modal Create & Update untuk movies di client dengan memanfaatkan query dan mutation
-- [ ] Buat fitur delete untuk movie menggunakan mutation
+- [x] Membuat client side untuk menampilkan menggunakan Apollo Client.
+- [x] Buat halaman home yang menampilkan data movies dan tvseries dengan menggunakan 1 query GraphQL
+- [x] Buat halaman/modal Create & Update untuk movies di client dengan memanfaatkan query dan mutation
+- [x] Buat fitur delete untuk movie menggunakan mutation
 - [ ] Buat fitur & halaman favorites dengan menggunakan localState (reactive variables / apollo cache) dan dapat memasukkan movie/tvseries kedalam favorites
+
+  #### Notes
+
+  - Sudah ada halaman create & update tapi mutation untuk update belum selesai
 
 ### Rocket (pilih salah satu)
 
