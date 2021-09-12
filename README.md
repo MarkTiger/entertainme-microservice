@@ -78,7 +78,7 @@ lanjut kerjakan di folder client
 
   #### Notes
 
-  - Sudah ada halaman create & update tapi mutation untuk update belum selesai
+  - Halaman home belum update ketika edit atau add movie
 
 ### Rocket (pilih salah satu)
 
