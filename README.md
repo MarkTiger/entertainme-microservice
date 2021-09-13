@@ -74,7 +74,7 @@ lanjut kerjakan di folder client
 - [x] Buat halaman home yang menampilkan data movies dan tvseries dengan menggunakan 1 query GraphQL
 - [x] Buat halaman/modal Create & Update untuk movies di client dengan memanfaatkan query dan mutation
 - [x] Buat fitur delete untuk movie menggunakan mutation
-- [ ] Buat fitur & halaman favorites dengan menggunakan localState (reactive variables / apollo cache) dan dapat memasukkan movie/tvseries kedalam favorites
+- [x] Buat fitur & halaman favorites dengan menggunakan localState (reactive variables / apollo cache) dan dapat memasukkan movie/tvseries kedalam favorites
 
 ### Rocket (pilih salah satu)
 
