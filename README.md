@@ -76,10 +76,6 @@ lanjut kerjakan di folder client
 - [x] Buat fitur delete untuk movie menggunakan mutation
 - [ ] Buat fitur & halaman favorites dengan menggunakan localState (reactive variables / apollo cache) dan dapat memasukkan movie/tvseries kedalam favorites
 
-  #### Notes
-
-  - Halaman home belum update ketika edit atau add movie
-
 ### Rocket (pilih salah satu)
 
 - [ ] Buatlah Custom Component mengganti Modal yang kamu pakai. Custom Component ini dipakai disemua pages kalian untuk validasi pada saat create, edit dan delete. (intinya bikin sweetalert/modal secara manual tanpa menggunakan library/css framework apapun) & Custom Component untuk menghandle preload.

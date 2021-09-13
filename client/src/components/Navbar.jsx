@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 export default function Navbar() {
   const location = useLocation();
   return (
-    <div className="col-12 p-3 bg-dark text-light">
+    <div className="p-3 bg-dark text-light">
       <div className="d-flex justify-content-between aling-items-center">
         <h1>EntertainMe</h1>
         <div className="d-flex align-items-center">

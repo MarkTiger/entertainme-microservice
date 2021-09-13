@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import IsEdit from '../components/IsEdit';
 import createTag from '../helpers/createTag';
-
-const CREATE_MOVIE = gql`
-  mutation CreateMovie($createMoviePayload: MovieInput) {
-    createMovie(payload: $createMoviePayload)
-  }
-`;
-
-const EDIT_MOVIE = gql`
-  mutation UpdateMovie($updateMovieId: ID!, $updateMoviePayload: MovieInput) {
-    updateMovie(id: $updateMovieId, payload: $updateMoviePayload)
-  }
-`;
+import { toast } from 'react-toastify';
+import { toastOptions } from '../helpers/toastOptions';
+import { CREATE_MOVIE, EDIT_MOVIE } from '../helpers/queries';
 
 export default function MovieForm() {
   const [movie, setMovie] = useState({});
@@ -43,7 +34,14 @@ export default function MovieForm() {
 
   const [formFunction] = useMutation(params.id ? EDIT_MOVIE : CREATE_MOVIE, {
     onError(err) {
-      console.log(err);
+      if (err.message.includes('304')) {
+        toast.info('Nothing changed', toastOptions);
+      } else {
+        toast.error('Internal server error', toastOptions);
+      }
+    },
+    onCompleted() {
+      toast.success('Task completed', toastOptions);
     },
   });
 
@@ -108,7 +106,7 @@ export default function MovieForm() {
             updateMovieId: params.id,
             updateMoviePayload: payload,
           },
-          refetchQueries: ['GetMovies', 'GetAll'],
+          refetchQueries: ['GetMovies'],
         });
 
         history.push('/manage-movies');
@@ -140,7 +138,7 @@ export default function MovieForm() {
           variables: {
             createMoviePayload: payload,
           },
-          refetchQueries: ['GetAll', 'GetMovies'],
+          refetchQueries: ['GetMovies'],
         });
 
         history.push('/manage-movies');
@@ -169,10 +167,14 @@ export default function MovieForm() {
   };
 
   if (params.id && !Object.keys(movie).length) {
-    return <IsEdit id={params.id} setMovie={setMovie} />;
+    return (
+      <div className="bg-secondary p-3">
+        <IsEdit id={params.id} setMovie={setMovie} />
+      </div>
+    );
   } else {
     return (
-      <div className="col-12 bg-secondary p-3">
+      <div className="bg-secondary p-3">
         <div className="bg-dark p-3 rounded text-light">
           <form onSubmit={handleSubmit}>
             <div className="mb-3">

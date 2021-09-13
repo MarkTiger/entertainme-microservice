@@ -1,38 +1,28 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import ItemRow from '../components/ItemRow';
-
-const GET_MOVIES = gql`
-  query GetMovies {
-    movies {
-      _id
-      title
-      overview
-      poster_path
-      popularity
-      tags
-    }
-  }
-`;
+import { ToastContainer } from 'react-toastify';
+import { GET_MOVIES } from '../helpers/queries';
 
 export default function ManageMovies() {
   const { loading, error, data } = useQuery(GET_MOVIES);
 
   if (loading) {
     return (
-      <div className="col-12 bg-secondary text-light text-center h3 d-flex align-items-center justify-content-center">
+      <div className="bg-secondary text-light text-center h3 d-flex align-items-center justify-content-center">
         Loading...
       </div>
     );
   } else if (error) {
-    <div className="col-12 bg-secondary text-light text-center h3 d-flex align-items-center justify-content-center">
+    <div className="bg-secondary text-light text-center h3 d-flex align-items-center justify-content-center">
       Something went wrong...
     </div>;
   } else {
     return (
-      <div className="col-12 bg-secondary p-3">
+      <div className="bg-secondary p-3">
         <div className="row p-3">
+          <ToastContainer />
           <div className="col-12 p-3 bg-dark text-light rounded d-flex align-items-center justify-content-between">
             <h4>Movies</h4>
             <Link className="btn btn-light" to="/manage-movies/add">

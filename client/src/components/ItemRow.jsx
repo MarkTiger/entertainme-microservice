@@ -1,6 +1,8 @@
 import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { toastOptions } from '../helpers/toastOptions';
 
 const DELETE_MOVIE = gql`
   mutation DeleteMovie($deleteMovieId: ID!) {
@@ -9,18 +11,27 @@ const DELETE_MOVIE = gql`
 `;
 
 export default function ItemRow({ itemData }) {
-  const [deleteMovie, { data, loading, error }] = useMutation(DELETE_MOVIE, {
+  const [deleteMovie, { loading, error }] = useMutation(DELETE_MOVIE, {
     errorPolicy: 'all',
     refetchQueries: ['GetMovies'],
+    onError: (err) => {
+      console.log(err);
+      if (err.message.includes('404')) {
+        toast.error(`Movie with id ${itemData._id} is not found`, toastOptions);
+      } else {
+        toast.error(`Internal server error`, toastOptions);
+      }
+    },
+    onCompleted: () => {
+      toast.success('Movie deleted', toastOptions);
+    },
   });
 
   const handleDelete = (id) => () => {
-    deleteMovie({ variables: { deleteMovieId: id } });
+    deleteMovie({
+      variables: { deleteMovieId: id },
+    });
   };
-
-  if (data) {
-    console.log(data);
-  }
 
   if (loading) {
     return (
@@ -39,7 +50,9 @@ export default function ItemRow({ itemData }) {
       <tr>
         <td>{itemData.title}</td>
         <td>{itemData.overview}</td>
-        <td>{itemData.poster_path}</td>
+        <td>
+          <img src={itemData.poster_path} width="100" alt="poster" />
+        </td>
         <td>{itemData.popularity}</td>
         <td>
           {itemData.tags.map((tag, i) => {
