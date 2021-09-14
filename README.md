@@ -80,4 +80,4 @@ lanjut kerjakan di folder client
 
 - [ ] Buatlah Custom Component mengganti Modal yang kamu pakai. Custom Component ini dipakai disemua pages kalian untuk validasi pada saat create, edit dan delete. (intinya bikin sweetalert/modal secara manual tanpa menggunakan library/css framework apapun) & Custom Component untuk menghandle preload.
 - [ ] Buat Docker Image untuk orchestrator dan masing-masing services
-- [ ] Deploy Client dan Server menggunakan AWS S3 dna EC2
+- [x] Deploy Client dan Server menggunakan AWS S3 dna EC2
