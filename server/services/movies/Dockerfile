@@ -2,8 +2,8 @@ FROM node:14-alpine
 
 WORKDIR /usr/local/application
 
-ENV PORT=4000
-ENV REDIS_SERVER=redis
+ENV PORT=4001
+ENV MONGO_SERVER=mongo
 
 RUN apk add --no-cache tini && apk add --no-cache bash
 

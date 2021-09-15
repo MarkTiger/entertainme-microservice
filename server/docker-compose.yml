@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  orchestrator:
+    build:
+      context: ./orchestrator
+      dockerfile: Dockerfile
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./orchestrator:/usr/local/application/app
+    links:
+      - redis
+  movie:
+    build:
+      context: ./services/movies
+      dockerfile: Dockerfile
+    ports:
+      - '4001:4001'
+    volumes:
+      - ./services/movies:/usr/local/application/app
+    links:
+      - mongo
+  tvseries:
+    build:
+      context: ./services/tvseries
+      dockerfile: Dockerfile
+    ports:
+      - '4002:4002'
+    volumes:
+      - ./services/tvseries:/usr/local/application/app
+    links:
+      - mongo
+  redis:
+    image: redis
+  mongo:
+    image: mongo
+volumes:
+  entertainme-db:
