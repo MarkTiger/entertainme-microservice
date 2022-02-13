@@ -1,5 +1,11 @@
 # entertainme
 
+## Links
+
+- [Graphql Server](https://entertainme-api.marcotiger.my.id/graphql)
+- [Web](https://entertainme.marcotiger.my.id)
+
+
 # Week-2 Day 4
 
 ## Kamis Pagi
