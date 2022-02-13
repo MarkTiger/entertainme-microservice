@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { favoriteMoviesVar } from '../helpers/reactiveVar';
 
 const client = new ApolloClient({
-  uri: 'http://13.250.40.110',
+  uri: 'https://entertainme-api.marcotiger.my.id/graphql',
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
