@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import Item from '../components/Item';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { GET_ALL } from '../helpers/queries';
 
 export default function Home() {
@@ -28,13 +28,13 @@ export default function Home() {
     );
   } else if (error) {
     <div className="bg-secondary text-light text-center h3 d-flex align-items-center justify-content-center">
-      <ToastContainer />
+      
       Something went wrong...
     </div>;
   } else {
     return (
       <div className="p-3 bg-secondary">
-        <ToastContainer />
+        
         <div className="row p-3">
           <div className="col-12 text-center h2 p-3 bg-dark text-light rounded m-0">
             Movies

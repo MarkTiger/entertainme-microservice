@@ -9,11 +9,13 @@ import ManageMovies from './views/ManageMovies';
 import MovieForm from './views/MovieForm';
 import NotFound from './views/NotFound';
 import FavoriteMovies from './views/FavoriteMovies';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App container-fluid d-flex flex-column vh-100 p-0">
+        <ToastContainer />
         <Navbar />
         <div className="flex-grow-1 bg-secondary">
           <Switch>

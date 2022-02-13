@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import ItemRow from '../components/ItemRow';
-import { ToastContainer } from 'react-toastify';
 import { GET_MOVIES } from '../helpers/queries';
 
 export default function ManageMovies() {
@@ -22,7 +21,7 @@ export default function ManageMovies() {
     return (
       <div className="bg-secondary p-3">
         <div className="row p-3">
-          <ToastContainer />
+          
           <div className="col-12 p-3 bg-dark text-light rounded d-flex align-items-center justify-content-between">
             <h4>Movies</h4>
             <Link className="btn btn-light" to="/manage-movies/add">
