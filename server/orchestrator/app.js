@@ -74,7 +74,7 @@ server.start().then(() => {
     cert: fs.readFileSync(path.join(__dirname, "fullchain.pem"), { encoding: "utf8" })
   }, app)
 
-  return new Promise((resolve) => httpsServer.listen({ port: 80 }, resolve))
+  return new Promise((resolve) => httpsServer.listen({ port: 443 }, resolve))
 }).then(() => {
   console.log("Server ready at port 80")
 })
