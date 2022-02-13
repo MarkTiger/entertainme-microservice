@@ -1,7 +1,12 @@
 require('dotenv').config();
 
-const { ApolloServer, gql } = require('apollo-server');
+const express = require("express");
+const { gql } = require('apollo-server');
+const { ApolloServer } = require("apollo-server-express");
 const { makeExecutableSchema } = require('@graphql-tools/schema');
+const https = require("https");
+const fs = require("fs");
+const path = require("path")
 const { merge } = require('lodash');
 const {
   typeDef: movieTypeDef,
@@ -61,7 +66,19 @@ const schema = makeExecutableSchema({
 });
 
 const server = new ApolloServer({ schema, debug: false });
+server.start().then(() => {
+  const app = express();
+  server.applyMiddleware({ app });
+  let httpsServer = https.createServer({
+    key: fs.readFileSync(path.join(__dirname, "privkey.pem"), { encoding: "utf8" }),
+    cert: fs.readFileSync(path.join(__dirname, "fullchain.pem"), { encoding: "utf8" })
+  }, app)
 
-server.listen().then(({ url }) => {
-  console.log(`Server ready at ${url}`);
-});
+  return new Promise((resolve) => httpsServer.listen({ port: 80 }, resolve))
+}).then(() => {
+  console.log("Server ready at port 80")
+})
+
+// server.listen().then(({ url }) => {
+//   console.log(`Server ready at ${url}`);
+// });
